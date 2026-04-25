@@ -221,7 +221,7 @@ button:active {
 
 <div class="card">
   <h2>Today's Follow-Ups</h2>
-  <div class="table-wrapper"></div>
+  <div class="table-wrapper">
   <table>
     <thead>
       <tr>
@@ -233,6 +233,7 @@ button:active {
     </thead>
     <tbody id="todayTable"></tbody>
   </table>
+  </div>
 </div>
 
 <div class="controls">
@@ -276,8 +277,8 @@ style="margin-left:auto;"
       </tr>
     </thead>
     <tbody id="tableBody"></tbody>
-    <div id="pagination" style="margin-top:10px;"></div>
-  </table>
+      </table>
+      <div id="pagination" style="margin-top:10px;"></div>
 </div>
 <div id="toast">Saved successfully</div>
 
@@ -419,10 +420,13 @@ function renderPagination(totalItems) {
 }
 
 function nextPage() {
-  currentPage++;
-  renderTable(allLeads);
-}
+  const totalPages = Math.ceil(allLeads.length / leadsPerPage);
 
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderTable(allLeads);
+  }
+}
 function prevPage() {
   if (currentPage > 1) {
     currentPage--;
@@ -552,7 +556,7 @@ async function loadAll() {
   allLeads = leads;
 
    currentPage = 1;
-   
+
   renderTable(allLeads);
 
   totalLeads.innerText = leads.length;
