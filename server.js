@@ -76,6 +76,7 @@ app.get("/leads", async (req, res) => {
   const leads = await Lead.find({ user: username });
 
   res.json(leads);
+  console.log("USERNAME:", req.headers.username);
 });
 
 // Register
