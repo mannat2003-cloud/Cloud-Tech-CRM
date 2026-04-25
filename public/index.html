@@ -441,7 +441,14 @@ paginatedData.forEach(l => {
     tableBody.innerHTML += `
       <tr>
         <td>${l.name || ""}</td>
-        <td>${l.phone || ""}</td>
+        <td>
+  ${l.phone || ""}
+  <button 
+    onclick="copyPhone('${l.phone}')" 
+    style="margin-left:5px; padding:4px 8px; font-size:12px;">
+    Copy
+  </button>
+</td>
         <td>${l.company || ""}</td>
 
         <td>
@@ -529,6 +536,10 @@ function searchLeads() {
 function logout(){
   localStorage.removeItem("loggedIn");
   window.location.href="/login.html";
+}
+function copyPhone(number) {
+  navigator.clipboard.writeText(number);
+  showToast("Phone copied!");
 }
 
 let teamChartInstance = null;
