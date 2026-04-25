@@ -291,6 +291,7 @@ if (localStorage.getItem("loggedIn") !== "true") {
 }
 let editId = null;
 let allLeads = [];
+let currentData = [];
 
 let currentPage = 1;
 const leadsPerPage = 10;
@@ -375,6 +376,7 @@ function exportToExcel() {
 
 function renderTable(data) {
   tableBody.innerHTML = "";
+  currentData = data;
   data = [...data].reverse();
 
 const start = (currentPage - 1) * leadsPerPage;
@@ -437,18 +439,18 @@ function renderPagination(totalItems) {
 }
 
 function nextPage() {
-  const totalPages = Math.ceil(allLeads.length / leadsPerPage);
+  const totalPages = Math.ceil(currentData.length / leadsPerPage);
 
   if (currentPage < totalPages) {
     currentPage++;
-    renderTable(allLeads);
+    renderTable(currentData);
   }
 }
 
 function prevPage() {
   if (currentPage > 1) {
     currentPage--;
-    renderTable(allLeads);
+    renderTable(currentData);
   }
 }
 
