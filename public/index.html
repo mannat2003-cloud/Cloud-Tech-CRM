@@ -276,6 +276,7 @@ style="margin-left:auto;"
       </tr>
     </thead>
     <tbody id="tableBody"></tbody>
+    <div id="pagination" style="margin-top:10px;"></div>
   </table>
 </div>
 <div id="toast">Saved successfully</div>
@@ -290,6 +291,8 @@ if (localStorage.getItem("loggedIn") !== "true") {
 }
 let editId = null;
 let allLeads = [];
+let currentPage = 1;
+const leadsPerPage = 10;
 
 const tableBody = document.getElementById("tableBody");
 
@@ -371,48 +374,30 @@ function exportToExcel() {
 
 function renderTable(data) {
   tableBody.innerHTML = "";
-  data = [...data].reverse();
 
-  data.forEach(l => {
+  const start = (currentPage - 1) * leadsPerPage;
+  const end = start + leadsPerPage;
+
+  const paginatedData = data.slice(start, end);
+
+  paginatedData.forEach(l => {
     tableBody.innerHTML += `
       <tr>
         <td>${l.name || ""}</td>
         <td>${l.phone || ""}</td>
         <td>${l.company || ""}</td>
-
-        <td>
-          ${
-            editId === l._id 
-            ? `
-              <select id="editStatus-${l._id}">
-                <option ${l.status==="New"?"selected":""}>New</option>
-                <option ${l.status==="Contacted"?"selected":""}>Contacted</option>
-                <option ${l.status==="Interested"?"selected":""}>Interested</option>
-                <option ${l.status==="Ongoing Follow-up"?"selected":""}>Ongoing Follow-up</option>
-                <option ${l.status==="Order Completed"?"selected":""}>Order Completed</option>
-                <option ${l.status==="Order Lost"?"selected":""}>Order Lost</option>
-              </select>
-            `
-            : `<span class="status ${getStatusClass(l.status)}">${l.status}</span>`
-          }
-        </td>
-
+        <td>${l.status}</td>
         <td>${l.nextFollowUp ? new Date(l.nextFollowUp).toLocaleDateString() : ""}</td>
         <td>${l.notes || ""}</td>
-
         <td>
-  ${
-    editId === l._id
-    ? `<button onclick="saveStatus('${l._id}')">Save</button>`
-    : `
-      <button onclick="startEdit('${l._id}')">Edit</button>
-      <button onclick="deleteLead('${l._id}')" style="background:red; margin-left:5px;">Delete</button>
-    `
-  }
-</td>
+          <button onclick="startEdit('${l._id}')">Edit</button>
+          <button onclick="deleteLead('${l._id}')" style="background:red;">Delete</button>
+        </td>
       </tr>
     `;
   });
+
+  renderPagination(data.length);
 }
 
 function filterLeads(status) {
@@ -420,6 +405,29 @@ function filterLeads(status) {
 
   const filtered = allLeads.filter(l => l.status === status);
   renderTable(filtered);
+}
+function renderPagination(totalItems) {
+  const totalPages = Math.ceil(totalItems / leadsPerPage);
+
+  let html = `
+    <button onclick="prevPage()">Prev</button>
+    <span> Page ${currentPage} of ${totalPages} </span>
+    <button onclick="nextPage()">Next</button>
+  `;
+
+  document.getElementById("pagination").innerHTML = html;
+}
+
+function nextPage() {
+  currentPage++;
+  renderTable(allLeads);
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderTable(allLeads);
+  }
 }
 
 function searchLeads() {
@@ -540,8 +548,11 @@ function clearForm() {
 async function loadAll() {
   const res = await fetch("/leads");
   const leads = await res.json();
-
+ 
   allLeads = leads;
+
+   currentPage = 1;
+   
   renderTable(allLeads);
 
   totalLeads.innerText = leads.length;
