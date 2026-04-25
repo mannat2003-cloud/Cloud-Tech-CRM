@@ -32,13 +32,13 @@ const User = mongoose.model("User", userSchema);
 
 // Admin
 (async () => {
-  const existing = await User.findOne({ username: "admin" });
+  const existing = await User.findOne({ username: "CloudTech" });
 
   if (!existing) {
-    const hashed = await bcrypt.hash("1234", 10);
+    const hashed = await bcrypt.hash("032003", 10);
 
     await User.create({
-      username: "admin",
+      username: "CloudTech",
       password: hashed,
       role: "admin"
     });
