@@ -47,6 +47,18 @@
 .updated {
   animation: glow 0.6s ease;
 }
+/* FINAL SINGLE TABLE RULE */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-wrapper table {
+  min-width: 900px;
+  width: auto;
+  border-collapse: collapse;
+}
 
 @keyframes glow {
   0% { background: #d1fae5; }
@@ -76,12 +88,7 @@
 
     button:hover { background:#1e40af; }
 
-    table {
-      width:100%;
-      border-collapse:collapse;
-      table-layout:fixed;
-    }
-
+    
     th, td {
       padding:12px;
       border-bottom:1px solid #ddd;
@@ -96,11 +103,7 @@
     }
 
     tr:hover { background:#f1f5ff; }
-    table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;   /* important */
-}
+    
 th, td {
   padding: 12px;
   border-bottom: 1px solid #ddd;   /* line between rows */
@@ -195,7 +198,7 @@ button:active {
 <div class="card">
   <h2>Today's Follow-Ups</h2>
 
-  <div style="overflow-x:auto;">
+  <div class="table-wrapper">
     <table>
       <thead>
         <tr>
