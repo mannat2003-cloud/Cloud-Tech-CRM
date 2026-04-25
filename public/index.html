@@ -145,35 +145,6 @@ button:active {
   opacity: 1;
   transform: translateY(0);
 }
-/* MOBILE FIX START */
-
-.add-lead {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.add-lead input,
-.add-lead select {
-  flex: 1 1 140px;
-  min-width: 120px;
-}
-
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-#searchInput {
-  margin-left: auto;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-}
-
-/* MOBILE FIX END */
   </style>
 
 </head>
@@ -200,7 +171,7 @@ button:active {
 
 <div class="card">
   <h2>Add Lead</h2>
-  <div class="form-grid add-lead">
+  <div class="add-lead">
     <input id="name" placeholder="Name">
     <input id="phone" placeholder="Phone">
     <input id="company" placeholder="Company">
@@ -223,7 +194,6 @@ button:active {
 
 <div class="card">
   <h2>Today's Follow-Ups</h2>
-  <div class="table-wrapper">
   <table>
     <thead>
       <tr>
@@ -235,7 +205,6 @@ button:active {
     </thead>
     <tbody id="todayTable"></tbody>
   </table>
-  </div>
 </div>
 
 <div class="controls">
@@ -266,6 +235,7 @@ style="margin-left:auto;"
 <div class="card">
   <h2>All Leads</h2>
 
+<div class="table-wrapper">
   <table>
     <thead>
       <tr>
@@ -280,6 +250,7 @@ style="margin-left:auto;"
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
+</div>
 </div>
 <div id="toast">Saved successfully</div>
 
