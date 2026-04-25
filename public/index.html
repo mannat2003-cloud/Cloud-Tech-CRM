@@ -145,6 +145,35 @@ button:active {
   opacity: 1;
   transform: translateY(0);
 }
+/* MOBILE FIX START */
+
+.add-lead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.add-lead input,
+.add-lead select {
+  flex: 1 1 140px;
+  min-width: 120px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#searchInput {
+  margin-left: auto;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* MOBILE FIX END */
   </style>
 
 </head>
@@ -171,7 +200,7 @@ button:active {
 
 <div class="card">
   <h2>Add Lead</h2>
-  <div class="form-grid">
+  <div class="form-grid add-lead">
     <input id="name" placeholder="Name">
     <input id="phone" placeholder="Phone">
     <input id="company" placeholder="Company">
@@ -194,12 +223,8 @@ button:active {
 
 <div class="card">
   <h2>Today's Follow-Ups</h2>
+  <div class="table-wrapper">
   <table>
-    <div style="overflow-x:auto;">
-  <table>
-    ...
-  </table>
-</div>
     <thead>
       <tr>
         <th>Name</th>
@@ -210,9 +235,10 @@ button:active {
     </thead>
     <tbody id="todayTable"></tbody>
   </table>
+  </div>
 </div>
 
-<div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+<div class="controls">
   <button onclick="filterLeads('All')">All</button>
   <button onclick="filterLeads('New')">New</button>
   <button onclick="filterLeads('Contacted')">Contacted</button>
