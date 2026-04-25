@@ -47,47 +47,47 @@
 .updated {
   animation: glow 0.6s ease;
 }
-/* FINAL SINGLE TABLE RULE */
-
-.body {
+.table-wrapper {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.add-lead input {
+  flex: 1 1 150px;
+}
+
+table {
+  min-width: 900px;  /* IMPORTANT */
+  border-collapse: collapse;
+}
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  min-width: 800px;
+  border-collapse: collapse;
+}
+/* FORCE TABLE SCROLL FIX */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
 }
 
 .table-wrapper table {
-  min-width: 900px;
-  width: auto;
+  min-width: 900px !important;
+  width: auto !important;
   border-collapse: collapse;
 }
-.add-lead {
-  display: flex;
-  flex-wrap: nowrap;   /* ❌ wrap OFF */
-  overflow-x: auto;    /* 👉 scroll ON */
-  gap: 10px;
-}
 
-.add-lead input,
-.add-lead select {
-  min-width: 140px;
+/* REMOVE SHRINKING */
+.card {
+  overflow: hidden;
 }
-
-.add-lead button {
-  min-width: 100px;
-}
-.controls {
-  display: flex;
-  flex-wrap: nowrap;   /* ❌ wrap OFF */
-  overflow-x: auto;    /* 👉 scroll ON */
-  gap: 10px;
-}
-.top-cards {
-  display: flex;
-  flex-wrap: nowrap;   /* ❌ wrap OFF */
-  overflow-x: auto;
-  gap: 15px;
-}
-
-.box {
-  min-width: 180px;
+body {
+  overflow-x: hidden;
 }
 
 @keyframes glow {
@@ -133,7 +133,11 @@
     }
 
     tr:hover { background:#f1f5ff; }
-    
+    table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;   /* important */
+}
 th, td {
   padding: 12px;
   border-bottom: 1px solid #ddd;   /* line between rows */
@@ -204,7 +208,7 @@ button:active {
 
 <div class="card">
   <h2>Add Lead</h2>
-  <div class="form-grid">
+  <div class="add-lead">
     <input id="name" placeholder="Name">
     <input id="phone" placeholder="Phone">
     <input id="company" placeholder="Company">
@@ -227,24 +231,20 @@ button:active {
 
 <div class="card">
   <h2>Today's Follow-Ups</h2>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Company</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody id="todayTable"></tbody>
-    </table>
-  </div>
-
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Company</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="todayTable"></tbody>
+  </table>
 </div>
 
-<div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+<div class="controls">
   <button onclick="filterLeads('All')">All</button>
   <button onclick="filterLeads('New')">New</button>
   <button onclick="filterLeads('Contacted')">Contacted</button>
@@ -272,6 +272,7 @@ style="margin-left:auto;"
 <div class="card">
   <h2>All Leads</h2>
 
+<div class="table-wrapper">
   <table>
     <thead>
       <tr>
@@ -286,6 +287,7 @@ style="margin-left:auto;"
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
+</div>
 </div>
 <div id="toast">Saved successfully</div>
 
