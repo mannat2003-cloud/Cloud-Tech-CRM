@@ -420,9 +420,9 @@ paginatedData.forEach(l => {
   }
 </td>
       </tr>
-      renderPagination(data.length);
-    `;
+          `;
   });
+  renderPagination(data.length);
 }
 function renderPagination(totalItems) {
   const totalPages = Math.ceil(totalItems / leadsPerPage);
