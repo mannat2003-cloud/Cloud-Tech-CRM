@@ -54,7 +54,9 @@ const leadSchema = new mongoose.Schema({
   status: String,
   nextFollowUp: Date,
   notes: String
-}, { timestamps: true });
+  user: String,
+}, 
+{ timestamps: true });
 
 const Lead = mongoose.model("Lead", leadSchema);
 
@@ -69,7 +71,10 @@ app.post("/add-lead", async (req, res) => {
 
 // Get Leads
 app.get("/leads", async (req, res) => {
-  const leads = await Lead.find();
+  const username = req.headers.username;
+
+  const leads = await Lead.find({ user: username });
+
   res.json(leads);
 });
 
@@ -107,14 +112,16 @@ app.post("/login", async (req, res) => {
 
 // Today followups
 app.get("/today-followups", async (req, res) => {
-  const today = new Date();
-  today.setHours(0,0,0,0);
+  const username = req.headers.username;
 
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
+  const today = new Date().toISOString().split("T")[0];
 
   const leads = await Lead.find({
-    nextFollowUp: { $gte: today, $lt: tomorrow }
+    user: username,
+    nextFollowUp: {
+      $gte: new Date(today),
+      $lte: new Date(today)
+    }
   });
 
   res.json(leads);
