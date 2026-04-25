@@ -60,7 +60,8 @@
   }
 
   .table-wrapper table {
-    min-width: 900px;
+    min-width: 1000px;
+    width: max-content;
   }
 
   th, td {
@@ -102,6 +103,11 @@
 }
 .table-wrapper {
   -webkit-overflow-scrolling: touch;
+}
+/* 🔥 FORCE TABLE TO BE WIDE */
+.table-wrapper table {
+  min-width: 1000px;   /* increase if needed */
+  width: max-content;
 }
 
 .box {
@@ -159,10 +165,7 @@ th, td {
   word-wrap: break-word;
 }
 td:nth-child(6) {
-  max-width: 200px;     /* Notes column */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;  /* text cut  */
+  max-width: 200px;
 }
 td:nth-child(6):hover {
   white-space: normal;
