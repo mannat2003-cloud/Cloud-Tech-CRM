@@ -68,7 +68,24 @@ table {
   min-width: 800px;
   border-collapse: collapse;
 }
+/* FORCE TABLE SCROLL FIX */
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.table-wrapper table {
+  min-width: 900px !important;
+  width: auto !important;
+  border-collapse: collapse;
+}
+
+/* REMOVE SHRINKING */
+.card {
+  overflow: hidden;
+}
 body {
   overflow-x: hidden;
 }
@@ -116,10 +133,11 @@ body {
     }
 
     tr:hover { background:#f1f5ff; }
-    table {
-  width: 100%;
+    
+    .table-wrapper table {
+  min-width: 900px;
+  width: auto;
   border-collapse: collapse;
-  table-layout: fixed;   /* important */
 }
 th, td {
   padding: 12px;
