@@ -59,6 +59,37 @@
   width: auto;
   border-collapse: collapse;
 }
+.add-lead {
+  display: flex;
+  flex-wrap: nowrap;   /* ❌ wrap OFF */
+  overflow-x: auto;    /* 👉 scroll ON */
+  gap: 10px;
+}
+
+.add-lead input,
+.add-lead select {
+  min-width: 140px;
+}
+
+.add-lead button {
+  min-width: 100px;
+}
+.controls {
+  display: flex;
+  flex-wrap: nowrap;   /* ❌ wrap OFF */
+  overflow-x: auto;    /* 👉 scroll ON */
+  gap: 10px;
+}
+.top-cards {
+  display: flex;
+  flex-wrap: nowrap;   /* ❌ wrap OFF */
+  overflow-x: auto;
+  gap: 15px;
+}
+
+.box {
+  min-width: 180px;
+}
 
 @keyframes glow {
   0% { background: #d1fae5; }
