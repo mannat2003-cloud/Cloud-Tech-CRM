@@ -53,7 +53,7 @@ const leadSchema = new mongoose.Schema({
   company: String,
   status: String,
   nextFollowUp: Date,
-  notes: String
+  notes: String,
   user: String,
 }, 
 { timestamps: true });
@@ -105,7 +105,7 @@ app.post("/login", async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (isMatch) {
-    res.json({ success: true, role: user.role });
+    res.json({ success: true, role: user.role,username: user.username});
   } else {
     res.json({ success: false });
   }
@@ -140,4 +140,3 @@ app.delete("/delete-lead/:id", async (req, res) => {
   res.json({ message: "Deleted" });
 });
 
-app.listen(5000, () => console.log("🚀 Server running on port 5000"));
