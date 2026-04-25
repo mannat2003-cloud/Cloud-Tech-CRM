@@ -278,6 +278,7 @@ style="margin-left:auto;"
     <tbody id="tableBody"></tbody>
   </table>
 </div>
+<div id="pagination" style="margin-top:10px; text-align:center;"></div>
 <div id="toast">Saved successfully</div>
 
 
@@ -290,6 +291,9 @@ if (localStorage.getItem("loggedIn") !== "true") {
 }
 let editId = null;
 let allLeads = [];
+
+let currentPage = 1;
+const leadsPerPage = 10;
 
 const tableBody = document.getElementById("tableBody");
 
@@ -373,7 +377,12 @@ function renderTable(data) {
   tableBody.innerHTML = "";
   data = [...data].reverse();
 
-  data.forEach(l => {
+const start = (currentPage - 1) * leadsPerPage;
+const end = start + leadsPerPage;
+
+const paginatedData = data.slice(start, end);
+
+paginatedData.forEach(l => {
     tableBody.innerHTML += `
       <tr>
         <td>${l.name || ""}</td>
@@ -411,8 +420,36 @@ function renderTable(data) {
   }
 </td>
       </tr>
+      renderPagination(data.length);
     `;
   });
+}
+function renderPagination(totalItems) {
+  const totalPages = Math.ceil(totalItems / leadsPerPage);
+
+  let html = `
+    <button onclick="prevPage()">Prev</button>
+    <span> Page ${currentPage} of ${totalPages} </span>
+    <button onclick="nextPage()">Next</button>
+  `;
+
+  document.getElementById("pagination").innerHTML = html;
+}
+
+function nextPage() {
+  const totalPages = Math.ceil(allLeads.length / leadsPerPage);
+
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderTable(allLeads);
+  }
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderTable(allLeads);
+  }
 }
 
 function filterLeads(status) {
@@ -542,6 +579,7 @@ async function loadAll() {
   const leads = await res.json();
 
   allLeads = leads;
+  currentPage = 1;
   renderTable(allLeads);
 
   totalLeads.innerText = leads.length;
