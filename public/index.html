@@ -59,6 +59,19 @@ table {
   min-width: 900px;  /* IMPORTANT */
   border-collapse: collapse;
 }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  min-width: 800px;
+  border-collapse: collapse;
+}
+
+body {
+  overflow-x: hidden;
+}
 
 @keyframes glow {
   0% { background: #d1fae5; }
@@ -88,12 +101,7 @@ table {
 
     button:hover { background:#1e40af; }
 
-    table {
-      width:100%;
-      border-collapse:collapse;
-      table-layout:fixed;
-    }
-
+    
     th, td {
       padding:12px;
       border-bottom:1px solid #ddd;
