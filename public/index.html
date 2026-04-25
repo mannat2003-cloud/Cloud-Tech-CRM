@@ -47,48 +47,6 @@
 .updated {
   animation: glow 0.6s ease;
 }
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.add-lead input {
-  flex: 1 1 150px;
-}
-
-table {
-  min-width: 900px;  /* IMPORTANT */
-  border-collapse: collapse;
-}
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-
-table {
-  min-width: 800px;
-  border-collapse: collapse;
-}
-/* FORCE TABLE SCROLL FIX */
-
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  display: block;
-}
-
-.table-wrapper table {
-  min-width: 900px !important;
-  width: auto !important;
-  border-collapse: collapse;
-}
-
-/* REMOVE SHRINKING */
-.card {
-  overflow: hidden;
-}
-body {
-  overflow-x: hidden;
-}
 
 @keyframes glow {
   0% { background: #d1fae5; }
@@ -118,7 +76,12 @@ body {
 
     button:hover { background:#1e40af; }
 
-    
+    table {
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+    }
+
     th, td {
       padding:12px;
       border-bottom:1px solid #ddd;
@@ -182,6 +145,35 @@ button:active {
   opacity: 1;
   transform: translateY(0);
 }
+/* MOBILE FIX START */
+
+.add-lead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.add-lead input,
+.add-lead select {
+  flex: 1 1 140px;
+  min-width: 120px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#searchInput {
+  margin-left: auto;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* MOBILE FIX END */
   </style>
 
 </head>
@@ -208,7 +200,7 @@ button:active {
 
 <div class="card">
   <h2>Add Lead</h2>
-  <div class="add-lead">
+  <div class="form-grid add-lead">
     <input id="name" placeholder="Name">
     <input id="phone" placeholder="Phone">
     <input id="company" placeholder="Company">
@@ -231,6 +223,7 @@ button:active {
 
 <div class="card">
   <h2>Today's Follow-Ups</h2>
+  <div class="table-wrapper"></div>
   <table>
     <thead>
       <tr>
@@ -272,7 +265,6 @@ style="margin-left:auto;"
 <div class="card">
   <h2>All Leads</h2>
 
-<div class="table-wrapper">
   <table>
     <thead>
       <tr>
@@ -287,7 +279,6 @@ style="margin-left:auto;"
     </thead>
     <tbody id="tableBody"></tbody>
   </table>
-</div>
 </div>
 <div id="toast">Saved successfully</div>
 
