@@ -57,21 +57,25 @@
 
 .add-lead {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
 }
 
 .add-lead input,
 .add-lead select {
-  flex: 1 1 150px;
-  min-width: 120px;
+  min-width: 150px;
+}
+
+.add-lead button {
+  min-width: 100px;
 }
 
 .controls {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
 }
 
 #searchInput {
@@ -79,7 +83,14 @@
 }
 
 .table-wrapper {
+  width: 100%;
   overflow-x: auto;
+}
+
+.table-wrapper table {
+  min-width: 1000px;
+  width: auto;
+  border-collapse: collapse;
 }
 
 /* ===== END ===== */
