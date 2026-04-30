@@ -412,7 +412,7 @@ if (!editId && exists) {
     await fetch("/add-lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      "username": localStorage.getItem("username")
     });
   }
 
@@ -589,8 +589,7 @@ async function loadMultiBarChart() {
    const res = await fetch("/today-followups", {
   headers: {
     username: localStorage.getItem("username"),
-    role: localStorage.getItem("role")
-  }
+      }
 });  
   const leads = await res.json();
 
@@ -653,8 +652,7 @@ async function loadAll() {
   const res = await fetch("/leads", {
   headers: {
     username: localStorage.getItem("username"),
-    role: localStorage.getItem("role")
-  }
+      }
 });
   const leads = await res.json();
 
@@ -668,8 +666,7 @@ async function loadAll() {
     const res2 = await fetch("/today-followups", {
   headers: {
     username: localStorage.getItem("username"),
-    role: localStorage.getItem("role")
-  }
+     }
 });
 
   todayCount.innerText = today.length;
