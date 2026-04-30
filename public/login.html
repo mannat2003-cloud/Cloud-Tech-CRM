@@ -78,10 +78,9 @@ gap:10px;
 </div>
 
 <script>
-  if (localStorage.getItem("loggedIn")) {
+  if (localStorage.getItem("loggedIn") === "true") {
   window.location.href = "index.html";
 }
-
 async function login() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -94,15 +93,14 @@ async function login() {
 
   const data = await res.json();
 
-  if (data.success) {
-    localStorage.setItem("loggedIn", "true");
-    localStorage.setItem("username", data.username);   
-    localStorage.setItem("role", data.role);
+  if (data.success && data.username) {
+  localStorage.setItem("loggedIn", "true");
+  localStorage.setItem("username", data.username);
+  localStorage.setItem("role", data.role);
 
-    window.location.href = "index.html";
-  } else {
-    alert("Invalid credentials");
-  }
+  window.location.href = "index.html";
+} else {
+  alert("Invalid credentials");
 }
 
 </script>
