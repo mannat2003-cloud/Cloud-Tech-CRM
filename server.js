@@ -73,10 +73,14 @@ app.post("/add-lead", async (req, res) => {
 app.get("/leads", async (req, res) => {
   const username = req.headers.username;
 
-  const leads = await Lead.find({ user: username });
+  const leads = await Lead.find({
+    $or: [
+      { user: username },
+      { user: { $exists: false } }   
+    ]
+  });
 
   res.json(leads);
-  console.log("USERNAME:", req.headers.username);
 });
 
 // Register
@@ -118,7 +122,10 @@ app.get("/today-followups", async (req, res) => {
   const today = new Date().toISOString().split("T")[0];
 
   const leads = await Lead.find({
-    user: username,
+    $or: [
+      { user: username },
+      { user: { $exists: false } }
+    ],
     nextFollowUp: {
       $gte: new Date(today),
       $lte: new Date(today)

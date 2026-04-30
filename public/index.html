@@ -360,6 +360,13 @@ const leadsPerPage = 10;
 const tableBody = document.getElementById("tableBody");
 
 async function addLead() {
+  const username = localStorage.getItem("username");
+
+if (!username) {
+  alert("Session expired. Please login again.");
+  window.location.href = "login.html";
+  return;
+}
   const phone = document.getElementById("phone").value;
 
 if (!/^[0-9]{10}$/.test(phone)) {
