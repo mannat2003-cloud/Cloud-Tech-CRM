@@ -71,11 +71,15 @@ app.post("/add-lead", async (req, res) => {
 // Get Leads
 app.get("/leads", async (req, res) => {
   const username = req.headers.username;
+const role = req.headers.role;
 
-  const leads = await Lead.find({ user: username });
+let leads;
 
-  res.json(leads);
-});
+if (role === "admin") {
+  leads = await Lead.find();   // admin sees all
+} else {
+  leads = await Lead.find({ user: username }); // 👤 user sees own
+}
 
 // Register
 app.post("/register", async (req, res) => {
@@ -114,19 +118,20 @@ app.post("/login", async (req, res) => {
 // Today followups
 app.get("/today-followups", async (req, res) => {
   const username = req.headers.username;
+const role = req.headers.role;
 
-  const today = new Date().toISOString().split("T")[0];
+let query = {
+  nextFollowUp: {
+    $gte: new Date(today),
+    $lte: new Date(today)
+  }
+};
 
-  const leads = await Lead.find({
-    user: username,
-    nextFollowUp: {
-      $gte: new Date(today),
-      $lte: new Date(today)
-    }
-  });
+if (role !== "admin") {
+  query.user = username;
+}
 
-  res.json(leads);
-});
+const leads = await Lead.find(query);
 
 // Update Lead
 app.put("/update-lead/:id", async (req, res) => {
