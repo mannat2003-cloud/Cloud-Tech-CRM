@@ -7,6 +7,7 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
@@ -52,10 +53,8 @@ const leadSchema = new mongoose.Schema({
   company: String,
   status: String,
   nextFollowUp: Date,
-  notes: String,
-  user: String,
-}, 
-{ timestamps: true });
+  notes: String
+}, { timestamps: true });
 
 const Lead = mongoose.model("Lead", leadSchema);
 
@@ -71,15 +70,11 @@ app.post("/add-lead", async (req, res) => {
 // Get Leads
 app.get("/leads", async (req, res) => {
   const username = req.headers.username;
-const role = req.headers.role;
 
-let leads;
+  const leads = await Lead.find({ user: username });
 
-if (role === "admin") {
-  leads = await Lead.find();   // admin sees all
-} else {
-  leads = await Lead.find({ user: username }); // 👤 user sees own
-}
+  res.json(leads);
+});
 
 // Register
 app.post("/register", async (req, res) => {
@@ -107,9 +102,7 @@ app.post("/login", async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (isMatch) {
-    res.json({ success: true,
-       role: user.role,
-      username: user.username });
+    res.json({ success: true, role: user.role });
   } else {
     res.json({ success: false });
   }
@@ -117,21 +110,18 @@ app.post("/login", async (req, res) => {
 
 // Today followups
 app.get("/today-followups", async (req, res) => {
-  const username = req.headers.username;
-const role = req.headers.role;
+  const today = new Date();
+  today.setHours(0,0,0,0);
 
-let query = {
-  nextFollowUp: {
-    $gte: new Date(today),
-    $lte: new Date(today)
-  }
-};
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
 
-if (role !== "admin") {
-  query.user = username;
-}
+  const leads = await Lead.find({
+    nextFollowUp: { $gte: today, $lt: tomorrow }
+  });
 
-const leads = await Lead.find(query);
+  res.json(leads);
+});
 
 // Update Lead
 app.put("/update-lead/:id", async (req, res) => {
@@ -144,4 +134,5 @@ app.delete("/delete-lead/:id", async (req, res) => {
   await Lead.findByIdAndDelete(req.params.id);
   res.json({ message: "Deleted" });
 });
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+app.listen(5000, () => console.log("🚀 Server running on port 5000"));

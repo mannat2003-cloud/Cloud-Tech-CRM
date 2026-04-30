@@ -373,8 +373,7 @@ if (!/^[0-9]{10}$/.test(phone)) {
     company: document.getElementById("company").value,
     status: document.getElementById("status").value,
     nextFollowUp: document.getElementById("date").value,
-    notes: document.getElementById("notes").value,
-    user: localStorage.getItem("username")
+    notes: document.getElementById("notes").value
   };
   // required validation
   if (
@@ -412,7 +411,7 @@ if (!editId && exists) {
     await fetch("/add-lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      "username": localStorage.getItem("username")
+      body: JSON.stringify(data)
     });
   }
 
@@ -586,11 +585,7 @@ let multiChart;
 
 async function loadMultiBarChart() {
 
-   const res = await fetch("/today-followups", {
-  headers: {
-    username: localStorage.getItem("username"),
-      }
-});  
+  const res = await fetch("/today-followups");   // 🔥 IMPORTANT CHANGE
   const leads = await res.json();
 
   const users = {};
@@ -649,11 +644,7 @@ function clearForm() {
 }
 
 async function loadAll() {
-  const res = await fetch("/leads", {
-  headers: {
-    username: localStorage.getItem("username"),
-      }
-});
+  const res = await fetch("/leads");
   const leads = await res.json();
 
   allLeads = leads;
@@ -663,11 +654,8 @@ async function loadAll() {
   totalLeads.innerText = leads.length;
   interestedCount.innerText = leads.filter(l => l.status === "Interested").length;
 
-    const res2 = await fetch("/today-followups", {
-  headers: {
-    username: localStorage.getItem("username"),
-     }
-});
+  const res2 = await fetch("/today-followups");
+  const today = await res2.json();
 
   todayCount.innerText = today.length;
 
